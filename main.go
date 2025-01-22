@@ -11,10 +11,10 @@ func main() {
 	log.Printf("Application started at: %v", time.Now())
 }
 
-func badpractice() {
+// func badpractice() {
 
-	fmt.Println("Hello World from the bad practice!")
+// 	fmt.Println("Hello World from the bad practice!")
 
-	// Adding logs
-	log.Printf("Application started at: %v", time.Now())
-}
+// 	// Adding logs
+// 	log.Printf("Application started at: %v", time.Now())
+// }
