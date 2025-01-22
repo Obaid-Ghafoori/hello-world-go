@@ -43,8 +43,9 @@ jobs:
             exit 1
           fi
 
-      - name: Install deadcode
-        run: go install golang.org/x/tools/cmd/deadcode@latest
+      - name: Install unused
+        run: go install honnef.co/go/tools/cmd/unused@latest
 
-      - name: Check for dead code
-        run: deadcode ./...
+      - name: Check for unused code
+        run: |
+          unused ./...
