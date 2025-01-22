@@ -22,10 +22,15 @@ jobs:
       - name: Install dependencies
         run: |
           go mod download
-          go install honnef.co/go/tools/cmd/staticcheck@latest
-          go install golang.org/x/lint/golint@latest
-          go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
-          go install golang.org/x/tools/cmd/goimports@latest
+          # Install staticcheck properly
+          GOBIN=$(go env GOPATH)/bin go install honnef.co/go/tools/cmd/staticcheck@latest
+          # Install other tools
+          GOBIN=$(go env GOPATH)/bin go install golang.org/x/lint/golint@latest
+          GOBIN=$(go env GOPATH)/bin go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+          GOBIN=$(go env GOPATH)/bin go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Add GOBIN to PATH
+        run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
       - name: Run tests with coverage
         run: go test -v -race -coverprofile=coverage.out ./...
