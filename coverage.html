@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/Obaid-Ghafoori/hello-world-go/main.go (100.0%)</option>
+				<option value="file0">github.com/Obaid-Ghafoori/hello-world-go/main.go (50.0%)</option>
 				
 				</select>
 			</div>
@@ -80,11 +80,34 @@
 		
 		<pre class="file" id="file0" style="display: none">package main
 
-import "fmt"
+import (
+        "fmt"
+        "log"
+        "time"
+)
 
 func main() <span class="cov8" title="1">{
-    fmt.Println("Hello, World!")
-}</span> </pre>
+        fmt.Println("Hello World!")
+        log.Printf("Application started at: %v", time.Now())
+}</span>
+func badpractice() <span class="cov0" title="0">{
+        // Unused variable
+        // deadVariable := "This variable is never used"
+
+        // Active code
+        fmt.Println("Hello World!")
+
+        // Adding logs
+        log.Printf("Application started at: %v", time.Now())
+
+        // Commented out code (should be detected)
+        /*
+                if true {
+                        log.Println("This code is commented out")
+                }
+        */
+}</span>
+</pre>
 		
 		</div>
 	</body>
