@@ -34,13 +34,11 @@ jobs:
       - name: Run go vet
         run: go vet ./...
 
-      - name: Check code formatting
+      - name: Format code
         run: |
-          go fmt ./...
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Code is not properly formatted. Please run 'go fmt ./...'"
-            exit 1
-          fi
+          gofmt -w .
+          # Check if any files were modified by gofmt
+          git diff --exit-code || (echo "Code formatting issues found. Please run 'go fmt ./...'" && exit 1)
 
       - name: Install and run revive
         run: |
