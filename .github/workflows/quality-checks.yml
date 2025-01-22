@@ -19,9 +19,13 @@ jobs:
           go-version: '1.20'  # Using a stable version
           cache: true
 
+      - name: Clean Go module
+        run: |
+          rm -f go.mod go.sum || true
+
       - name: Initialize Go module
         run: |
-          go mod init github.com/Obaid-Ghafoori/hello-world-go || true
+          go mod init github.com/Obaid-Ghafoori/hello-world-go
           go mod tidy
 
       - name: Run tests with coverage
