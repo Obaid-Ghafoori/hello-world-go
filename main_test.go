@@ -22,7 +22,7 @@ func TestMain(t *testing.T) {
 	var buf bytes.Buffer
 	io.Copy(&buf, r)
 
-	expected := "Hello World!\n"
+	expected := "Hello-World!\n"
 	if got := buf.String(); got != expected {
 		t.Errorf("main() = %q, want %q", got, expected)
 	}
