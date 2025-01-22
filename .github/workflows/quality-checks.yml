@@ -48,4 +48,23 @@ jobs:
 
       - name: Run staticcheck
         run: |
-          $(go env GOPATH)/bin/staticcheck -checks=all ./...
+          $(go env GOPATH)/bin/staticcheck -checks=all,ST1000,ST1003,ST1016,ST1020,ST1021,ST1022 ./...
+
+      - name: Check for commented code
+        run: |
+          if grep -r "^[[:space:]]*//[[:space:]]*func" .; then
+            echo "Found commented out functions. Please remove commented code."
+            exit 1
+          fi
+          if grep -r "^[[:space:]]*//[[:space:]]*type" .; then
+            echo "Found commented out types. Please remove commented code."
+            exit 1
+          fi
+          if grep -r "^[[:space:]]*//[[:space:]]*var" .; then
+            echo "Found commented out variables. Please remove commented code."
+            exit 1
+          fi
+          if grep -r "^[[:space:]]*//[[:space:]]*const" .; then
+            echo "Found commented out constants. Please remove commented code."
+            exit 1
+          fi
