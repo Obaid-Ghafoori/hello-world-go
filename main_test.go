@@ -24,6 +24,6 @@ func TestMain(t *testing.T) {
 
 	// Check output
 	if got := buf.String(); got != "Hello, World!\n" {
-		t.Errorf("main() = %q, want %q", got, "Hello, World!\n")
+		t.Errorf("main() = %q, want %q", got, "Hello World!\n")
 	}
 }
