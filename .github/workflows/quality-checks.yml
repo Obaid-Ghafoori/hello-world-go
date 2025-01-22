@@ -34,11 +34,14 @@ jobs:
       - name: Run go vet
         run: go vet ./...
 
-      - name: Format code
+      - name: Check formatting
         run: |
-          gofmt -w .
-          # Check if any files were modified by gofmt
-          git diff --exit-code || (echo "Code formatting issues found. Please run 'go fmt ./...'" && exit 1)
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "These files are not formatted:"
+            gofmt -l .
+            echo "Please run 'go fmt ./...' to format your code"
+            exit 1
+          fi
 
       - name: Install and run revive
         run: |
