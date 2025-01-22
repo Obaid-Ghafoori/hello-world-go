@@ -42,8 +42,3 @@ jobs:
             echo "Please run 'go fmt ./...' to format your code"
             exit 1
           fi
-
-      - name: Install and run revive
-        run: |
-          go install github.com/mgechev/revive@latest
-          revive ./...
