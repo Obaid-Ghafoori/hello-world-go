@@ -42,3 +42,9 @@ jobs:
             echo "Please run 'go fmt ./...' to format your code"
             exit 1
           fi
+
+      - name: Install deadcode
+        run: go install golang.org/x/tools/cmd/deadcode@latest
+
+      - name: Check for dead code
+        run: deadcode ./...
