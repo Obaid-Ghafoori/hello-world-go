@@ -1,0 +1,56 @@
+name: Go Quality Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          go mod download
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          go install golang.org/x/lint/golint@latest
+          go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Run tests with coverage
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.out
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Run staticcheck
+        run: staticcheck ./...
+
+      - name: Run golint
+        run: golint -set_exit_status ./...
+
+      - name: Check code formatting
+        run: |
+          goimports -w .
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Code is not properly formatted. Please run 'goimports -w .'"
+            exit 1
+          fi
+
+      - name: Check cyclomatic complexity
+        run: gocyclo -over 15 . 
