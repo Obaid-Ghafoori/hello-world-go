@@ -43,9 +43,9 @@ jobs:
             exit 1
           fi
 
-      - name: Install unused
-        run: go install honnef.co/go/tools/cmd/unused@latest
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@v0.4.3
 
-      - name: Check for unused code
+      - name: Run staticcheck
         run: |
-          unused ./...
+          $(go env GOPATH)/bin/staticcheck -checks=all ./...
