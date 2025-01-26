@@ -11,7 +11,7 @@ on:
       - develop
 
 jobs:
-  enforce-branch-protection:
+  a-pr-must-have-at-least-one-review:
     runs-on: ubuntu-latest
 
     steps:
