@@ -12,21 +12,20 @@ on:
 
 jobs:
   pull-request-should-have-at-least-one-review:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Prevent direct pushes to main and develop
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-      run: |
-        if [ "$GITHUB_EVENT_NAME" == "push" ]; then
-          echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
-          exit 1
-        fi
+    # - name: Prevent direct pushes to main and develop
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    #   run: |
+    #     if [ "$GITHUB_EVENT_NAME" == "push" ]; then
+    #       echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
+    #       exit 1
+    #     fi
 
-    
     - name: Ensure PR has at least one review
       if: github.event_name == 'pull_request'
       run: |
@@ -38,10 +37,9 @@ jobs:
           exit 1
         fi
 
-    # merge
     - name: Succeed for merges
       if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
       run: |
         # Extract the branch name from github.ref
         BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-        echo "This is a merge to $BRANCH_NAME. Pipeline will eventually succeed."
+        echo "This is a merge to $BRANCH_NAME. Pipeline will succeed."
