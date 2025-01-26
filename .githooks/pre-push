@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PROTECTED_BRANCHES=("main" "develop")
+
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
+
+REMOTE_BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+
+for BRANCH in "${PROTECTED_BRANCHES[@]}"; do
+  if [[ "$CURRENT_BRANCH" == "$BRANCH" || "$REMOTE_BRANCH" == "origin/$BRANCH" ]]; then
+    echo "ERROR: Direct pushes to the '$BRANCH' branch are not allowed."
+    echo "Please create a feature branch and submit a pull request."
+    exit 1
+  fi
+done
+
+exit 0
