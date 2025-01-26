@@ -18,14 +18,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # - name: Prevent direct pushes to main and develop
-    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-    #   run: |
-    #     if [ "$GITHUB_EVENT_NAME" == "push" ]; then
-    #       echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
-    #       exit 1
-    #     fi
-
     - name: Ensure PR has at least one review
       if: github.event_name == 'pull_request'
       run: |
