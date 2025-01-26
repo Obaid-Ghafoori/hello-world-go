@@ -11,4 +11,10 @@ A simple Hello World program written in Go.
 go run main.go
 ```
 
+After clonning the Hello World repository, run the following command
+## Run branch-protection
+```bash
+chmod +x install-hooks.sh
+./install-hooks.sh
+```
 
