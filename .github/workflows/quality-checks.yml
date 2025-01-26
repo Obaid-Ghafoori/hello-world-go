@@ -23,6 +23,7 @@ jobs:
         run: |
           if [ ! -f go.mod ]; then
             go mod init github.com/Obaid-Ghafoori/hello-world-go
+            echo "go 1.23" >> go.mod
           fi
           go mod tidy
 
