@@ -1,38 +1,47 @@
-# name: Branch Protection
+name: Branch Protection
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       - develop
-#   pull_request:
-#     branches:
-#       - main
-#       - develop
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
-# jobs:
-#   enforce-branch-protection:
-#     runs-on: ubuntu-latest
+jobs:
+  enforce-branch-protection:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-#     - name: Prevent direct pushes to main and develop
-#       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-#       run: |
-#         if [ "$GITHUB_EVENT_NAME" == "push" ]; then
-#           echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
-#           exit 1
-#         fi
+    - name: Prevent direct pushes to main and develop
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+      run: |
+        if [ "$GITHUB_EVENT_NAME" == "push" ]; then
+          echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
+          exit 1
+        fi
 
-#     - name: Ensure PR has at least one review
-#       if: github.event_name == 'pull_request'
-#       run: |
-#         echo "Checking for reviews..."
-#         reviews=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-#           "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" | jq length)
-#         if [ "$reviews" -eq 0 ]; then
-#           echo "::error::At least one review is required before merging."
-#           exit 1
-#         fi
+    
+    - name: Ensure PR has at least one review
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "Checking for reviews..."
+        reviews=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" | jq length)
+        if [ "$reviews" -eq 0 ]; then
+          echo "::error::At least one review is required before merging."
+          exit 1
+        fi
+
+    # merge
+    - name: Succeed for merges
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+      run: |
+        # Extract the branch name from github.ref
+        BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+        echo "This is a merge to $BRANCH_NAME. Pipeline will eventually succeed."
