@@ -1,3 +1,3 @@
 module github.com/Obaid-Ghafoori/hello-world-go
 
-go 1.23.5
+go 1.20
