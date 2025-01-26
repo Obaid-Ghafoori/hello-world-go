@@ -22,16 +22,17 @@ jobs:
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
       run: |
         if [ "$GITHUB_EVENT_NAME" == "push" ]; then
-          echo "Direct pushes to main/develop branches are not allowed."
+          echo "::error::Direct pushes to main/develop branches are not allowed. Please create a pull request."
           exit 1
         fi
 
     - name: Ensure PR has at least one review
       if: github.event_name == 'pull_request'
       run: |
+        echo "Checking for reviews..."
         reviews=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" | jq length)
         if [ "$reviews" -eq 0 ]; then
-          echo "At least one review is required before merging."
+          echo "::error::At least one review is required before merging."
           exit 1
         fi
