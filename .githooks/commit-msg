@@ -30,16 +30,18 @@ RESET="\033[0m"
 
 # Validate commit message format
 if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
-    echo -e "\n${RED}Commit message: '${COMMIT_MSG}'"
-    echo -e "ERROR: Commit message does not follow the required format.${RESET}"
-    echo -e "\nPlease use Commitizen (cz) or follow the format: '${GREEN}type: subject${RESET}'."
-    echo -e "\nExample: ${GREEN}'feat: add new feature'${RESET}"
-    echo -e "\nNote: Ensure your commit message starts with one of:'${ORANGE}[feat, fix, docs, style, refactor, test, chore$']\n"
+    echo -e "\n+-----------------------------------------| ${RED}Commitizen error${RESET} |--------------------------------------------+"
+    echo -e "|  ${ORANGE}Commit message: '${COMMIT_MSG}' ${RESET} ***************************************************************  |"
+    echo -e "|  ${RED}ERROR: Commit message does not follow the required format.${RESET} ******************************************  |"
+    echo -e "|  Please use Commitizen (cz) or follow the format: '${GREEN}type: subject${RESET}'. ***********************************  |"
+    echo -e "|  EXAMPLE: ${GREEN}'feat: add new feature'${RESET} ********************************************************************  |"
+    echo -e "|  NOTE: Ensure your commit message starts with one of:'${ORANGE}[feat, fix, docs, style, refactor, test, chore$']${RESET} |"
+    echo -e "+----------------------------------------------| ${RED}END${RESET} |----------------------------------------------------+"
     exit 1  
 fi
 
 # Success message when commit message is valid
 echo -e "\n${GREEN}Commit message is valid! Commit successful.${RESET}"
 
-# Allow commit if message is valid
+# Allow commit if message is valid.
 exit 0
