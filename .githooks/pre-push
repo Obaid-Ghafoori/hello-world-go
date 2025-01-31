@@ -1,22 +1,74 @@
 #!/bin/bash
 
+# Protected branches (no direct pushes allowed)
 PROTECTED_BRANCHES=("main" "develop")
 
+# Allowed branch types for naming
+ALLOWED_BRANCH_TYPES="feature|bugfix|hotfix|release|custom"
+
+# Branch naming regex pattern
+BRANCH_REGEX="^($ALLOWED_BRANCH_TYPES)/[A-Za-z0-9]+-[A-Za-z0-9\\-]+$"
+
+# Maximum branch name length
+MAX_LENGTH=60
+
+# Get the current branch
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
+# Get the remote branch
 REMOTE_BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
 
+# Define color codes
 RED="\033[91m"
 GREEN="\033[0;32m"
 ORANGE="\033[38;2;255;165;0m"
 RESET="\033[0m"
 
-for BRANCH in "${PROTECTED_BRANCHES[@]}"; do
-  if [[ "$CURRENT_BRANCH" == "$BRANCH" || "$REMOTE_BRANCH" == "origin/$BRANCH" ]]; then
-    echo ${RED}"ERROR: Direct pushes to the '$BRANCH' branch are not allowed."${RESET}
-    echo ${ORANGE} "Please create a feature branch and submit a pull request."${RESET}
-    exit 1
-  fi
-done
+# Function to check if the branch is protected
+check_protected_branches() {
+  for BRANCH in "${PROTECTED_BRANCHES[@]}"; do
+    if [[ "$CURRENT_BRANCH" == "$BRANCH" || "$REMOTE_BRANCH" == "origin/$BRANCH" ]]; then
+      echo -e ${RED}"ERROR: Direct pushes to the '$BRANCH' branch are not allowed."${RESET}
+      echo -e ${ORANGE}"Please create a feature branch and submit a pull request."${RESET}
+      exit 1
+    fi
+  done
+}
+
+# Function to validate branch name format
+validate_branch_name() {
+  while read local_ref local_sha remote_ref remote_sha
+  do
+    # Extract the branch name
+    BRANCH_NAME=$(echo "$local_ref" | sed 's|refs/heads/||')
+
+    # Skip validation if it's not a branch (tag or delete)
+    if [[ "$local_ref" != refs/heads/* ]]; then
+      continue
+    fi
+
+    # Check branch name length
+    if [[ ${#BRANCH_NAME} -gt $MAX_LENGTH ]]; then
+      echo -e "\e[31mERROR: Branch name '${BRANCH_NAME}' exceeds the maximum length of $MAX_LENGTH characters.\e[0m"
+      exit 1
+    fi
+
+    # Validate branch name format using regex
+    if [[ ! $BRANCH_NAME =~ $BRANCH_REGEX ]]; then
+      echo -e "\e[31mERROR: Branch name '${BRANCH_NAME}' does not follow the required format.\e[0m"
+      echo -e "${ORANGE}Please use the format: {branchType}/{issueKey}-{sanitizedSummary} ${RESET}"
+      echo -e "\e[31mNote: {branchType} must be one of: ${GREEN}feature, bugfix, hotfix, release, or custom ${RESET}"
+      exit 1
+    fi
+
+    # If valid, print success message
+    echo -e "${GREEN}Branch '${BRANCH_NAME}' is valid.${RESET}"
+
+  done
+}
+
+# Run the checks and validations
+check_protected_branches
+validate_branch_name
 
 exit 0
