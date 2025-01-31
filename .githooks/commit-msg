@@ -11,14 +11,14 @@ if [[ -z "$COMMIT_MSG_FILE" || ! -f "$COMMIT_MSG_FILE" ]]; then
 fi
 
 # DEBUG: Print commit message file path
-echo -e "\033[0;34m[DEBUG] Commit message file: $COMMIT_MSG_FILE\033[0m"
+# echo -e "\033[0;34m[DEBUG] Commit message file: $COMMIT_MSG_FILE\033[0m"
 
 # Read the first line of the commit message
 # COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | tr -d '\r')  # Handle Windows line endings
 COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | sed 's/\r//g')
 
 # DEBUG: Print actual commit message
-echo -e "\033[0;34m[DEBUG] Commit message: '$COMMIT_MSG'\033[0m"
+# echo -e "\033[0;34m[DEBUG] Commit message: '$COMMIT_MSG'\033[0m"
 
 # Regular expression pattern to match valid commit messages
 PATTERN="^($VALID_TYPES): .+"
@@ -38,6 +38,9 @@ if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
     echo -e "\nNote: Ensure your commit message starts with one of: <${ORANGE}feat, fix, docs, style, refactor, test, chore${ORANGE}.>"
     exit 1  # Reject commit
 fi
+
+# Success message when commit message is valid
+echo -e "\n${GREEN}Commit message is valid! Commit successful.${RESET}"
 
 # Allow commit if message is valid
 exit 0
