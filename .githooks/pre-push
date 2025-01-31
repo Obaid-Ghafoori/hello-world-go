@@ -55,11 +55,17 @@ validate_branch_name() {
 
     # Validate branch name format using regex
     if [[ ! $BRANCH_NAME =~ $BRANCH_REGEX ]]; then
-      echo -e "\e[31mERROR: Branch name '${BRANCH_NAME}' does not follow the required format.\e[0m"
-      echo -e "${ORANGE}Please use the format: {branchType}/{issueKey}-{sanitizedSummary} ${RESET}"
-      echo -e "\e[31mNote: {branchType} must be one of: ${GREEN}feature, bugfix, hotfix, release, or custom ${RESET}"
+        echo -e "\n+-------------------------------------------------------------------------------------+"
+        echo -e "|   ${RED}ERROR: Branch name *************** '${BRANCH_NAME}' does not follow the required format.${RESET}   |"
+        echo -e "|   Please use the format:************** ${ORANGE}{branchType}/{issueKey}-{sanitizedSummary}${RESET}   |"
+        echo -e "|   EXAMPLE:*********************************************** ${GREEN}feature/add-new-feature${RESET}   |"
+        echo -e "|   NOTE:branchType must be one of: *** ${GREEN}feature, bugfix, hotfix, release, or custom${RESET}   |"
+        echo -e "+-------------------------------------------------------------------------------------+\n"
+        exit 1
       exit 1
     fi
+
+    
 
     # If valid, print success message
     echo -e "${GREEN}Branch '${BRANCH_NAME}' is valid.${RESET}"
