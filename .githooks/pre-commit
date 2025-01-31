@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Define allowed commit types
+VALID_TYPES="feat|fix|docs|style|refactor|test|chore"
+
+# Ensure a commit message file is provided
+COMMIT_MSG_FILE="$1"
+if [[ -z "$COMMIT_MSG_FILE" || ! -f "$COMMIT_MSG_FILE" ]]; then
+    echo -e "\033[0;31mERROR: Commit message file not found.\033[0m"
+    exit 1
+fi
+
+# Read the first line of the commit message
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | tr -d '\r')  # Handle Windows line endings
+
+# Regular expression pattern to match valid commit messages
+PATTERN="^($VALID_TYPES): .+"
+
+# ANSI color codes for styling output
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+RESET="\033[0m"
+
+# Validate commit message format
+if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
+    echo -e "\n${RED}Commit message: '${COMMIT_MSG}'"
+    echo -e "ERROR: Commit message does not follow the required format.${RESET}"
+    echo -e "\nPlease use Commitizen (cz) or follow the format: '${GREEN}type: subject${RESET}'."
+    echo -e "\nExample: ${GREEN}'feat: add new feature'${RESET}"
+    echo -e "\nNote: Ensure your commit message starts with one of: feat, fix, docs, style, refactor, test, chore."
+    exit 1  # Reject commit
+fi
+
+# Allow commit if message is valid
+exit 0
