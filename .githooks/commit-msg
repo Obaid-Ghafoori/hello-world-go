@@ -24,8 +24,9 @@ echo -e "\033[0;34m[DEBUG] Commit message: '$COMMIT_MSG'\033[0m"
 PATTERN="^($VALID_TYPES): .+"
 
 # ANSI color codes for styling output
-RED="\033[0;31m"
+RED="\033[91m"
 GREEN="\033[0;32m"
+ORANGE="\033[38;2;255;165;0m"
 RESET="\033[0m"
 
 # Validate commit message format
@@ -34,7 +35,7 @@ if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
     echo -e "ERROR: Commit message does not follow the required format.${RESET}"
     echo -e "\nPlease use Commitizen (cz) or follow the format: '${GREEN}type: subject${RESET}'."
     echo -e "\nExample: ${GREEN}'feat: add new feature'${RESET}"
-    echo -e "\nNote: Ensure your commit message starts with one of: feat, fix, docs, style, refactor, test, chore."
+    echo -e "\nNote: Ensure your commit message starts with one of: <${ORANGE}feat, fix, docs, style, refactor, test, chore${ORANGE}.>"
     exit 1  # Reject commit
 fi
 
