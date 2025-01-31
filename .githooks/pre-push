@@ -6,10 +6,15 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
 REMOTE_BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
 
+RED="\033[91m"
+GREEN="\033[0;32m"
+ORANGE="\033[38;2;255;165;0m"
+RESET="\033[0m"
+
 for BRANCH in "${PROTECTED_BRANCHES[@]}"; do
   if [[ "$CURRENT_BRANCH" == "$BRANCH" || "$REMOTE_BRANCH" == "origin/$BRANCH" ]]; then
-    echo "ERROR: Direct pushes to the '$BRANCH' branch are not allowed."
-    echo "Please create a feature branch and submit a pull request."
+    echo ${RED}"ERROR: Direct pushes to the '$BRANCH' branch are not allowed."${RESET}
+    echo ${ORANGE} "Please create a feature branch and submit a pull request."${RESET}
     exit 1
   fi
 done
