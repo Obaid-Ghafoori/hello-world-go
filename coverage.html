@@ -62,17 +62,8 @@
 			<div id="legend">
 				<span>not tracked</span>
 			
-				<span class="cov0">no coverage</span>
-				<span class="cov1">low coverage</span>
-				<span class="cov2">*</span>
-				<span class="cov3">*</span>
-				<span class="cov4">*</span>
-				<span class="cov5">*</span>
-				<span class="cov6">*</span>
-				<span class="cov7">*</span>
-				<span class="cov8">*</span>
-				<span class="cov9">*</span>
-				<span class="cov10">high coverage</span>
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
 			
 			</div>
 		</div>
@@ -88,7 +79,14 @@ import (
 
 func main() <span class="cov8" title="1">{
         fmt.Println("Hello World!")
-        log.Printf("Application started at: %v", time.Now())
+        log.Printf("Application started at: %v", LoginTime("admin"))
+}</span>
+
+func LoginTime(username string) string <span class="cov8" title="1">{
+        currentTime := time.Now()
+        formattedTime := currentTime.Format("2006-01-02 15:04:05")
+        fmt.Printf("User %s logged in at %s\n", username, formattedTime)
+        return formattedTime
 }</span>
 </pre>
 		
