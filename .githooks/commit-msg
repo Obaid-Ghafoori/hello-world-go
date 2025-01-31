@@ -10,8 +10,15 @@ if [[ -z "$COMMIT_MSG_FILE" || ! -f "$COMMIT_MSG_FILE" ]]; then
     exit 1
 fi
 
+# DEBUG: Print commit message file path
+echo -e "\033[0;34m[DEBUG] Commit message file: $COMMIT_MSG_FILE\033[0m"
+
 # Read the first line of the commit message
-COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | tr -d '\r')  # Handle Windows line endings
+# COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | tr -d '\r')  # Handle Windows line endings
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | sed 's/\r//g')
+
+# DEBUG: Print actual commit message
+echo -e "\033[0;34m[DEBUG] Commit message: '$COMMIT_MSG'\033[0m"
 
 # Regular expression pattern to match valid commit messages
 PATTERN="^($VALID_TYPES): .+"
