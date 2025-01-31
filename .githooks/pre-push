@@ -19,4 +19,5 @@ for BRANCH in "${PROTECTED_BRANCHES[@]}"; do
   fi
 done
 
+
 exit 0
