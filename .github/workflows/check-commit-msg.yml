@@ -1,0 +1,15 @@
+# name: Validate Commit Messages
+# on: [push]
+
+# jobs:
+#   check-commit-messages:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check for story number
+#         run: |
+#           # Check the latest commit message
+#           commit_msg=$(git log -1 --pretty=%B)
+#           if [[ ! "$commit_msg" =~ [A-Z]{2,}-\d+ ]]; then
+#             echo "ERROR: Commit message must include a story number (e.g., ABC-14)."
+#             exit 1
+#           fi

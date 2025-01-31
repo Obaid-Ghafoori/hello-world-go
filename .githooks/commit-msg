@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#types of commits.
+VALID_TYPES="feat|fix|docs|style|refactor|test|chore"
+
+# Ensure a commit message file is provided
+COMMIT_MSG_FILE="$1"
+if [[ -z "$COMMIT_MSG_FILE" || ! -f "$COMMIT_MSG_FILE" ]]; then
+    echo -e "\033[0;31mERROR: Commit message file not found.\033[0m"
+    exit 1
+fi
+
+# DEBUG: Print commit message file path
+# echo -e "\033[0;34m[DEBUG] Commit message file: $COMMIT_MSG_FILE\033[0m"
+
+# Read the first line of the commit message
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | sed 's/\r//g')
+
+# DEBUG: Print actual commit message
+# echo -e "\033[0;34m[DEBUG] Commit message: '$COMMIT_MSG'\033[0m"
+
+# Regular expression pattern to match valid commit messages
+PATTERN="^($VALID_TYPES): .+"
+
+# ANSI color codes for styling output
+RED="\033[91m"
+GREEN="\033[0;32m"
+ORANGE="\033[38;2;255;165;0m"
+RESET="\033[0m"
+
+# Validate commit message format
+if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
+    echo -e "\n+-----------------------------------------| ${RED}Commitizen error${RESET} |--------------------------------------------+"
+    echo -e "|  ${ORANGE}Commit message: '${COMMIT_MSG}' ${RESET} ***************************************************************  |"
+    echo -e "|  ${RED}ERROR: Commit message does not follow the required format.${RESET} ******************************************  |"
+    echo -e "|  Please use Commitizen (cz) or follow the format: '${GREEN}type: subject${RESET}'. ***********************************  |"
+    echo -e "|  EXAMPLE: ${GREEN}'feat: add new feature'${RESET} ********************************************************************  |"
+    echo -e "|  NOTE: Ensure your commit message starts with one of:'${ORANGE}[feat, fix, docs, style, refactor, test, chore$']${RESET} |"
+    echo -e "+----------------------------------------------| ${RED}END${RESET} |----------------------------------------------------+"
+    exit 1  
+fi
+
+# Success message when commit message is valid
+echo -e "\n${GREEN}Commit message is valid! Commit successful.${RESET}"
+
+# Allow commit if message is valid.
+exit 0

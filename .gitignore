@@ -8,3 +8,8 @@ echo "# Go specific ignores
 *.test
 *.out
 go.work" > .gitignore
+
+test.md
+DS_Store
+.DS_Store
+
