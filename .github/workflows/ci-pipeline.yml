@@ -23,7 +23,8 @@ jobs:
       go-version: ${{ vars.GO_VERSION }}
 
   test:
-    uses: ./.github/workflows/build-test.yml
+    uses: ./.github/workflows/test.yml
+    needs: lint 
     with:
       go-version: ${{ vars.GO_VERSION }}
   build:
