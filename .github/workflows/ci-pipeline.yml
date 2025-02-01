@@ -17,6 +17,12 @@ env:
   MIN_COVERAGE: 80
 
 jobs:
+  review-threshold:
+    uses: ./.gethub/workflows/branch-protection.yml
+    with:
+      required_pull_request_reviews: 1
+      required_status_checks: "strict"
+
   lint:
     uses: ./.github/workflows/linting.yml
     with:

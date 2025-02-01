@@ -1,17 +1,14 @@
 name: Branch Protection
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
 
 jobs:
-  pull-request-should-have-at-least-one-review:
+  review-pr:
     runs-on: ubuntu-22.04 
 
     steps:
