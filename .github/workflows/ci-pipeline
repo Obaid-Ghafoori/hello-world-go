@@ -5,21 +5,21 @@ on:
     branches:
       - main
       - develop
-      - feature/**  
+      - feature/*  
   pull_request:
     branches:
       - main
       - develop
-      - feature/**
+      - feature/*
 
 jobs:
   lint:
-    uses: .github/workflows/linting.yml 
+    uses: ./.github/workflows/linting.yml 
     with:
       go-version: '1.20' 
 
-  test-build:  
-    uses: .github/workflows/buil-test.yml
+  test-build: 
+    uses: ./.github/workflows/build-test.yml
     with:
       go-version: '1.20'  
     
