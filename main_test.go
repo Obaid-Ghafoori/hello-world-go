@@ -6,15 +6,15 @@ import (
 	"testing"
 )
 
-func TestMainOutput(t *testing.T) {
+func TestPrintHelloWorld(t *testing.T) {
 	// Capture stdout
 	oldStdout := os.Stdout
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	// Call main function
+	// Call printHelloWorld function
 	go func() {
-		main()
+		printHelloWorld()
 		w.Close()
 	}()
 	buf := new(bytes.Buffer)

@@ -1,0 +1,51 @@
+name: Build and Test Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.20'  # Specify the Go version
+
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Install dependencies
+      run: go mod tidy
+
+    - name: Run unit tests
+      run: go test -v ./...
+
+    - name: Check code coverage
+      run: |
+        go test -coverprofile=coverage.out ./...
+        go tool cover -func=coverage.out | grep total | awk '{print substr($3, 1, length($3)-1)}' > coverage_percent.txt
+        COVERAGE=$(cat coverage_percent.txt)
+        if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+          echo "Code coverage is below 80%: $COVERAGE%"
+          exit 1
+        else
+          echo "Code coverage is sufficient: $COVERAGE%"
+        fi
+
+    - name: Build Go binary
+      run: go build -o myapp .
