@@ -10,23 +10,34 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Go
+    - name: Setup Go Environment
       uses: actions/setup-go@v3
       with:
-        go-version: ${{ inputs.go-version }}  
+        go-version: "1.20"
         
-    - name: Set GOROOT
-      run: |
-        echo "GOROOT=$(go env GOROOT)" >> $GITHUB_ENV
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Install golangci-lint
       run: |
         curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.63.4
+        echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+
+    - name: Initialize Go module (if needed)
+      run: |
+        if [ ! -f go.mod ]; then
+          go mod init your-module-name
+        fi
+        go mod tidy
+
+    - name: Debug Go environment
+      run: |
+        echo "GOPATH: $(go env GOPATH)"
+        echo "GOROOT: $(go env GOROOT)"
+        echo "Working directory: $(pwd)"
+        echo "Go version: $(go version)"
+        echo "Go modules: $(go list -m)"
 
     - name: Run golangci-lint
       run: golangci-lint run
