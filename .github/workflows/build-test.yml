@@ -7,27 +7,19 @@ on:
         required: true
         type: string
 
+env:
+  MIN_COVERAGE: 80
+
 jobs:
   build-test:
+    uses: ./.github/workflows/setup-env.yml
+    with:
+      go-version: ${{ inputs.go-version }}
+
+  building-tests:
     runs-on: ubuntu-latest
-
+    needs: build-test
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: ${{ inputs.go-version }}  
-        
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
-
     - name: Install dependencies
       run: go mod tidy
 
@@ -39,8 +31,8 @@ jobs:
         go test -coverprofile=coverage.out ./...
         go tool cover -func=coverage.out | grep total | awk '{print substr($3, 1, length($3)-1)}' > coverage_percent.txt
         COVERAGE=$(cat coverage_percent.txt)
-        if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-          echo "Code coverage is below 80%: $COVERAGE%"
+        if (( $(echo "$COVERAGE < $MIN_COVERAGE" | bc -l) )); then
+          echo "Code coverage is below $MIN_COVERAGE%: $COVERAGE%"
           exit 1
         else
           echo "Code coverage is sufficient: $COVERAGE%"
