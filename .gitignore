@@ -11,5 +11,6 @@ go.work" > .gitignore
 
 test.md
 DS_Store
+*.DS_Store
 .DS_Store
 
