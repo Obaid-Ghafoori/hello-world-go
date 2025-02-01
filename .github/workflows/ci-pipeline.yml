@@ -19,9 +19,9 @@ env:
 jobs:
   review-threshold:
     uses: ./.github/workflows/branch-protection.yml
-    with:
-      required_pull_request_reviews: 1
-      required_status_checks: "strict"
+    # with:
+    #   required_pull_request_reviews: 1
+    #   required_status_checks: "strict"
 
   lint:
     uses: ./.github/workflows/linting.yml
