@@ -1,12 +1,17 @@
 name: Build and Test Pipeline
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
 
 jobs:
   build-test:

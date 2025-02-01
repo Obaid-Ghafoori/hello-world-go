@@ -1,16 +1,21 @@
 name: Go Linting
 
 on:
-    push:
-        branches:
-        - main
-        - develop
-        - feature/*
-    pull_request:
-        branches:
-        - main
-        - develop
-        - feature/*
+    # push:
+    #     branches:
+    #     - main
+    #     - develop
+    #     - feature/*
+    # pull_request:
+    #     branches:
+    #     - main
+    #     - develop
+    #     - feature/*
+    workflow_call:
+        inputs:
+          go-version:
+            required: true
+            type: string
 
 
 jobs:
