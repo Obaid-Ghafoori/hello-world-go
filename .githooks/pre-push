@@ -68,7 +68,7 @@ validate_branch_name() {
     
 
     # If valid, print success message
-    echo -e "${GREEN}Branch '${BRANCH_NAME}' is valid.${RESET}"
+    echo -e " ✅ ${GREEN}Branch '${BRANCH_NAME}' is valid.${RESET}"
 
   done
 }

@@ -54,20 +54,5 @@ jobs:
           echo -e "\033[0;31mCode coverage is below $MIN_COVERAGE%: $COVERAGE%\033[0m"
           exit 1
         else
-          echo -e "\033[0;32mCode coverage is sufficient: $COVERAGE%\033[0m"
+          echo -e " ✅ \033[0;32mCode coverage is sufficient: $COVERAGE%\033[0m"
         fi
-
-  # build:
-  #   runs-on: ubuntu-latest
-  #   needs: unit-tests
-  #   steps:
-  #   - name: Setup Go Environment
-  #     uses: actions/setup-go@v3
-  #     with:
-  #       go-version: ${{ env.GO_VERSION }}
-
-  #   - name: Checkout code
-  #     uses: actions/checkout@v3
-
-  #   - name: Build Go binary
-  #     run: go build -o myapp .

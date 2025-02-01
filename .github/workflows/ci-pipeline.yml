@@ -18,7 +18,7 @@ env:
 
 jobs:
   review-threshold:
-    uses: ./.gethub/workflows/branch-protection.yml
+    uses: ./.github/workflows/branch-protection.yml
     with:
       required_pull_request_reviews: 1
       required_status_checks: "strict"
@@ -44,4 +44,4 @@ jobs:
     steps:
       - name: Generate summary
         run: |
-          echo "\033[0;32mLinting, testing, and building completed successfully!"
+          echo "✅\033[0;32mLinting, testing, and building completed successfully!"
