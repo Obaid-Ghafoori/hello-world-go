@@ -27,6 +27,7 @@ jobs:
     with:
       go-version: ${{ vars.GO_VERSION }}
   build:
+    needs: test
     uses: ./.github/workflows/build.yml
     with:
       go-version: ${{ vars.GO_VERSION }}
