@@ -1,6 +1,5 @@
 # Hello World Go
-
-[![ci pipeline](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/quality-checks.yml/badge.svg)](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/ci-pipeline.yml)
+[![ci pipeline](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/ci-pipeline.yml)
 [![codecov](https://codecov.io/gh/Obaid-Ghafoori/hello-world-go/branch/main/graph/badge.svg)](https://codecov.io/gh/Obaid-Ghafoori/hello-world-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Obaid-Ghafoori/hello-world-go)](https://goreportcard.com/report/github.com/Obaid-Ghafoori/hello-world-go)
 
