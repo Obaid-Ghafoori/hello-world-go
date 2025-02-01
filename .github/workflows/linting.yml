@@ -1,17 +1,11 @@
 name: Go Linting
 
 on:
-    push:
-        branches:
-        - main
-        - develop
-        - feature/*
-    pull_request:
-        branches:
-        - main
-        - develop
-        - feature/*
-
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
 
 jobs:
   lint:
@@ -24,8 +18,8 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: '1.20'    
-
+        go-version: ${{ inputs.go-version }}  
+        
     - name: Set GOROOT
       run: |
         echo "GOROOT=$(go env GOROOT)" >> $GITHUB_ENV
