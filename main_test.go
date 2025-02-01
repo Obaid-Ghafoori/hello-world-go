@@ -32,6 +32,7 @@ func TestPrintHelloWorld(t *testing.T) {
 		t.Errorf("Expected output %q, got %q", expectedOutput, output)
 	}
 }
+
 func TestPrintUserData(t *testing.T) {
 	// Capture stdout
 	oldStdout := os.Stdout
