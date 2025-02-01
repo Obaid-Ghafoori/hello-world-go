@@ -5,23 +5,23 @@ on:
     branches:
       - main
       - develop
-      - feature/*
+      - feature/**  
   pull_request:
     branches:
       - main
       - develop
-      - feature/*
+      - feature/**
 
 jobs:
   lint:
     uses: ./.github/workflows/linting.yml 
 
-  test & Build:
+  test-build:  
     uses: ./.github/workflows/test-build.yml
     
   summary:
     runs-on: ubuntu-latest
-    needs: [lint, test, build]
+    needs: [lint, test-build]  
     steps:
       - name: Generate summary
         run: |
