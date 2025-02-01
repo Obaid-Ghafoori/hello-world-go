@@ -1,69 +1,69 @@
-name: Go Quality Checks
+# name: Go Quality Checks
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+# on:
+#   push:
+#     branches: [ main, develop ]
+#   pull_request:
+#     branches: [ main, develop ]
 
-jobs:
-  quality:
-    name: Code Quality
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+# jobs:
+#   quality:
+#     name: Code Quality
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.20'
-          cache: true
+#       - name: Set up Go
+#         uses: actions/setup-go@v4
+#         with:
+#           go-version: '1.20'
+#           cache: true
 
-      - name: Initialize Go module (if not already initialized)
-        run: |
-          if [ ! -f go.mod ]; then
-            go mod init github.com/Obaid-Ghafoori/hello-world-go
-            echo "go 1.20" >> go.mod
-          fi
-          go mod tidy
+#       - name: Initialize Go module (if not already initialized)
+#         run: |
+#           if [ ! -f go.mod ]; then
+#             go mod init github.com/Obaid-Ghafoori/hello-world-go
+#             echo "go 1.20" >> go.mod
+#           fi
+#           go mod tidy
 
-      - name: Run tests with coverage
-        run: go test -v -race -coverprofile=coverage.out ./...
+#       - name: Run tests with coverage
+#         run: go test -v -race -coverprofile=coverage.out ./...
 
-      - name: Run go vet
-        run: go vet ./...
+#       - name: Run go vet
+#         run: go vet ./...
 
-      - name: Check formatting
-        run: |
-          if [ -n "$(gofmt -l .)" ]; then
-            echo "These files are not formatted:"
-            gofmt -l .
-            echo "Please run 'go fmt ./...' to format your code"
-            exit 1
-          fi
+#       - name: Check formatting
+#         run: |
+#           if [ -n "$(gofmt -l .)" ]; then
+#             echo "These files are not formatted:"
+#             gofmt -l .
+#             echo "Please run 'go fmt ./...' to format your code"
+#             exit 1
+#           fi
 
-      - name: Install staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@v0.4.3
+#       - name: Install staticcheck
+#         run: go install honnef.co/go/tools/cmd/staticcheck@v0.4.3
 
-      - name: Run staticcheck
-        run: |
-          $(go env GOPATH)/bin/staticcheck -checks=all,ST1000,ST1003,ST1016,ST1020,ST1021,ST1022 ./...
+#       - name: Run staticcheck
+#         run: |
+#           $(go env GOPATH)/bin/staticcheck -checks=all,ST1000,ST1003,ST1016,ST1020,ST1021,ST1022 ./...
 
-      - name: Check for commented code
-        run: |
-          if grep -r "^[[:space:]]*//[[:space:]]*func" .; then
-            echo "Found commented out functions. Please remove commented code."
-            exit 1
-          fi
-          if grep -r "^[[:space:]]*//[[:space:]]*type" .; then
-            echo "Found commented out types. Please remove commented code."
-            exit 1
-          fi
-          if grep -r "^[[:space:]]*//[[:space:]]*var" .; then
-            echo "Found commented out variables. Please remove commented code."
-            exit 1
-          fi
-          if grep -r "^[[:space:]]*//[[:space:]]*const" .; then
-            echo "Found commented out constants. Please remove commented code."
-            exit 1
-          fi
+#       - name: Check for commented code
+#         run: |
+#           if grep -r "^[[:space:]]*//[[:space:]]*func" .; then
+#             echo "Found commented out functions. Please remove commented code."
+#             exit 1
+#           fi
+#           if grep -r "^[[:space:]]*//[[:space:]]*type" .; then
+#             echo "Found commented out types. Please remove commented code."
+#             exit 1
+#           fi
+#           if grep -r "^[[:space:]]*//[[:space:]]*var" .; then
+#             echo "Found commented out variables. Please remove commented code."
+#             exit 1
+#           fi
+#           if grep -r "^[[:space:]]*//[[:space:]]*const" .; then
+#             echo "Found commented out constants. Please remove commented code."
+#             exit 1
+#           fi

@@ -1,4 +1,4 @@
-name: Go Linting checks
+name: Go Linting
 
 on:
     push:
