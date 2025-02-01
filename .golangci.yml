@@ -13,7 +13,7 @@ linters:
     - nakedret
     - copyloopvar
     - gocritic
-    - shadow        
+    - shadows        
 
 run:
   deadline: 5m
