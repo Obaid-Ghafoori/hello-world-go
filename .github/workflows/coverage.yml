@@ -1,0 +1,39 @@
+name: Go Coverage Report
+
+on:
+  push:
+    branches:
+      - main  
+      - develop
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - develop  
+      - feature/*
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'  
+      - name: Run tests
+        run: go test -v -coverprofile=coverage.out ./...
+
+      - name: Update coverage report
+        uses: ncruces/go-coverage-report@v0
+        with:
+          coverage-file: coverage.out  # Optional: Path to the coverage file
+          report: true                 # Generate an HTML coverage report
+          chart: true                  # Generate an SVG coverage chart
+          amend: true                  # Amend the Wiki to avoid multiple commits
+          badge-style: flat            # Badge style (flat, flat-square, plastic, for-the-badge, social)
+          badge-title: coverage        # Badge title
+        if: github.event_name == 'push'  # Only run on push events (not PRs)
+        continue-on-error: true    

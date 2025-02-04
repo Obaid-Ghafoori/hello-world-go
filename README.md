@@ -2,6 +2,7 @@
 [![ci pipeline](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/Obaid-Ghafoori/hello-world-go/actions/workflows/ci-pipeline.yml)
 [![codecov](https://codecov.io/gh/Obaid-Ghafoori/hello-world-go/branch/main/graph/badge.svg)](https://codecov.io/gh/Obaid-Ghafoori/hello-world-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Obaid-Ghafoori/hello-world-go)](https://goreportcard.com/report/github.com/Obaid-Ghafoori/hello-world-go)
+[![Go Coverage](https://github.com/Obaid-Ghafoori/hello-world-go/wiki/coverage.svg)](https://raw.githack.com/wiki/Obaid-Ghafoori/hello-world-go/coverage.html)
 
 
 ## Overview
