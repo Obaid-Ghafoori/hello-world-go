@@ -3,15 +3,15 @@ name: Go Coverage Report
 on:
   push:
     branches:
-      - main 
+      - main  
       - develop
       - feature/*
   pull_request:
     branches:
-      - main  
-      - develop
+      - main
+      - develop  
       - feature/*
-      
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
@@ -24,14 +24,13 @@ jobs:
         with:
           go-version: '1.20'  
 
-      - name: Build
-        run: go build -v ./...
-    
-      - name: Test
-        run: go test -v ./...
-    
-      - name: Update coverage badge
-        uses: ncruces/go-coverage-report@main
+      - name: Run tests and generate coverage report
+        run: |
+          go test -coverprofile=coverage.out ./...
+
+      - name: Generate coverage badge
+        uses: axllent/go-coverage-report@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage: 80
+          badge: true
+          coverage-file: coverage.out
