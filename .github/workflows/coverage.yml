@@ -23,14 +23,17 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.20'  
+      - name: Run tests
+        run: go test -v -coverprofile=coverage.out ./...
 
-      - name: Run tests and generate coverage report
-        run: |
-          go test -coverprofile=coverage.out ./...
-
-      - name: Generate coverage badge
-        uses: axllent/go-coverage-report@v1.0.0
+      - name: Update coverage report
+        uses: ncruces/go-coverage-report@v0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          badge: true
-          coverage-file: coverage.out
+          coverage-file: coverage.out  # Optional: Path to the coverage file
+          report: true                 # Generate an HTML coverage report
+          chart: true                  # Generate an SVG coverage chart
+          amend: true                  # Amend the Wiki to avoid multiple commits
+          badge-style: flat            # Badge style (flat, flat-square, plastic, for-the-badge, social)
+          badge-title: coverage        # Badge title
+        if: github.event_name == 'push'  # Only run on push events (not PRs)
+        continue-on-error: true    
