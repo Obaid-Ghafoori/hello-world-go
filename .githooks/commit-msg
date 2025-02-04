@@ -41,7 +41,8 @@ if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
 fi
 
 # Success message when commit message is valid
-echo -e "\n${GREEN}Commit message is valid! Commit successful.${RESET}"
+echo -e "\n ✅ ${GREEN}Commit message is valid! Commit successful.${RESET}"
 
 # Allow commit if message is valid.
 exit 0
+
